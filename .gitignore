@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.venv/
+build-cache/
+*.local
+.DS_Store

@@ -1,0 +1,54 @@
+/* Layer order: later layers win, regardless of source order. */
+@layer tokens, base, components, utilities;
+
+@layer tokens {
+  :root {
+    color-scheme: light;
+
+    /* ONE base color per CEFR band. Every tint/border/badge is color-mixed
+       from these at point of use, so the whole palette lives here. */
+    --band-A1: #15a34a; /* green  — most common */
+    --band-A2: #0d9488; /* teal */
+    --band-B1: #ca8a04; /* amber */
+    --band-B2: #ea580c; /* orange */
+    --band-C: #e11d48; /* rose   — rare/advanced */
+    --band-NF: #64748b; /* slate  — not found */
+
+    --bg: #f5f6f8;
+    --surface: #ffffff;
+    --text: #0f172a;
+    --muted: #667085;
+    --border: #e6e8ec;
+
+    --radius: 14px;
+    --radius-sm: 9px;
+    --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.06);
+    --shadow-md: 0 8px 24px rgb(15 23 42 / 0.1);
+
+    --font:
+      system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell,
+      sans-serif;
+  }
+
+  /* The active band, set via [data-band], is exposed as a single --band custom
+     property so components derive their accents with color-mix() and never need
+     per-band rules. */
+  [data-band="A1"] {
+    --band: var(--band-A1);
+  }
+  [data-band="A2"] {
+    --band: var(--band-A2);
+  }
+  [data-band="B1"] {
+    --band: var(--band-B1);
+  }
+  [data-band="B2"] {
+    --band: var(--band-B2);
+  }
+  [data-band="C"] {
+    --band: var(--band-C);
+  }
+  [data-band="NF"] {
+    --band: var(--band-NF);
+  }
+}

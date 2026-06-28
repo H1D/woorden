@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Word Sorter">
+  <rect width="64" height="64" rx="14" fill="#1f2937"/>
+  <rect x="13.5" y="17" width="7.5" height="33" rx="2.5" fill="#15a34a"/>
+  <rect x="24.25" y="25" width="7.5" height="25" rx="2.5" fill="#0d9488"/>
+  <rect x="35" y="32" width="7.5" height="18" rx="2.5" fill="#ca8a04"/>
+  <rect x="45.75" y="38" width="7.5" height="12" rx="2.5" fill="#ea580c"/>
+</svg>
