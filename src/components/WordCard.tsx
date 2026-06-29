@@ -67,10 +67,9 @@ function CardContent({
           style={css({ positionAnchor: anchor })}
         >
           <strong className="popover-band">{BAND_LABEL[band]}</strong>
-          {entry.zipf != null ? (
+          {entry.rank != null ? (
             <ul className="popover-list">
-              <li>Frequency: Zipf {entry.zipf.toFixed(2)}</li>
-              <li>Rank: #{entry.rank}</li>
+              <li>#{entry.rank.toLocaleString()} most common word</li>
               {entry.resolved === "form" && <li>Counted as &ldquo;{entry.lemma}&rdquo;</li>}
             </ul>
           ) : (

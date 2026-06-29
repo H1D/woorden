@@ -1,4 +1,4 @@
-import { zipfToBand } from "./banding";
+import { rankToBand } from "./banding";
 import type { Article, ArticlesData, FormsData, LemmasData, Meta } from "./types";
 
 const base = import.meta.env.BASE_URL;
@@ -21,7 +21,7 @@ function parseLemmas(text: string): LemmasData {
     if (tab < 0) continue;
     const word = line.slice(0, tab);
     const z = parseFloat(line.slice(tab + 1));
-    map.set(word, { z, r: i + 1, b: zipfToBand(z) });
+    map.set(word, { z, r: i + 1, b: rankToBand(i + 1) });
   }
   return map;
 }

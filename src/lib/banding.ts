@@ -21,14 +21,17 @@ export const BAND_HINT: Record<Band, string> = {
   NF: "Not in the data — likely a typo, a name, or non-Dutch",
 };
 
-// Zipf cutoffs -> CEFR band. Keep in sync with scripts/build_data.py.
-export const THRESHOLDS = { A1: 5.0, A2: 4.5, B1: 4.0, B2: 3.5 } as const;
+// Frequency-RANK cutoffs -> CEFR band (rank 1 = most common lemma). These give
+// round, teacher-friendly "top N words" bands and match the classic CEFR
+// vocabulary-size convention (A2≈1k, B1≈2k, B2≈4k). Keep in sync with
+// scripts/build_data.py.
+export const RANK_THRESHOLDS = { A1: 750, A2: 1500, B1: 3000, B2: 6000 } as const;
 
-export function zipfToBand(z: number): DataBand {
-  if (z >= THRESHOLDS.A1) return "A1";
-  if (z >= THRESHOLDS.A2) return "A2";
-  if (z >= THRESHOLDS.B1) return "B1";
-  if (z >= THRESHOLDS.B2) return "B2";
+export function rankToBand(rank: number): DataBand {
+  if (rank <= RANK_THRESHOLDS.A1) return "A1";
+  if (rank <= RANK_THRESHOLDS.A2) return "A2";
+  if (rank <= RANK_THRESHOLDS.B1) return "B1";
+  if (rank <= RANK_THRESHOLDS.B2) return "B2";
   return "C";
 }
 

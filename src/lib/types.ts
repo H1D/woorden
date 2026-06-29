@@ -28,7 +28,7 @@ export interface Meta {
   zipfFloor?: number;
   lemmaCount: number;
   formCount: number;
-  thresholds: Record<"A1" | "A2" | "B1" | "B2", number>;
+  rankThresholds?: Record<"A1" | "A2" | "B1" | "B2", number>;
   sources: Source[];
 }
 

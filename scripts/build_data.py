@@ -29,20 +29,21 @@ os.makedirs(OUT, exist_ok=True)
 # Dutch vocabulary. Words below it fall into the app's "Not found" area.
 ZIPF_FLOOR = 1.5
 
-# Zipf cutoffs -> CEFR band. Mirrored in src/lib/banding.ts (keep in sync).
-THRESHOLDS = {"A1": 5.0, "A2": 4.5, "B1": 4.0, "B2": 3.5}
+# Frequency-RANK cutoffs -> CEFR band (rank 1 = most common lemma). Round,
+# teacher-friendly "top N" bands. Mirrored in src/lib/banding.ts (keep in sync).
+RANK_THRESHOLDS = {"A1": 750, "A2": 1500, "B1": 3000, "B2": 6000}
 
 
-def zipf_to_band(z: float) -> str:
-    if z >= THRESHOLDS["A1"]:
+def rank_to_band(rank: int) -> str:
+    if rank <= RANK_THRESHOLDS["A1"]:
         return "A1"
-    if z >= THRESHOLDS["A2"]:
+    if rank <= RANK_THRESHOLDS["A2"]:
         return "A2"
-    if z >= THRESHOLDS["B1"]:
+    if rank <= RANK_THRESHOLDS["B1"]:
         return "B1"
-    if z >= THRESHOLDS["B2"]:
+    if rank <= RANK_THRESHOLDS["B2"]:
         return "B2"
-    return "C"  # too rare / advanced
+    return "C"  # C1/C2 — advanced / rare
 
 
 # Letters (unicode), optionally joined by a single apostrophe or hyphen.
@@ -111,7 +112,7 @@ def main() -> None:
         "zipfFloor": ZIPF_FLOOR,
         "lemmaCount": len(kept),
         "formCount": len(forms_out),
-        "thresholds": THRESHOLDS,
+        "rankThresholds": RANK_THRESHOLDS,
         "sources": [
             {
                 "name": "wordfreq",
@@ -156,12 +157,12 @@ def main() -> None:
             print(f"  removed stale {old}")
 
     # Spot-check a few known words for sanity.
-    kept_dict = dict(kept)
+    rank_of = {lemma: i + 1 for i, (lemma, _) in enumerate(kept)}
     print("Spot-check:")
     for probe in ["de", "huis", "fiets", "lopen", "ingewikkeld", "raszuiver"]:
-        z = kept_dict.get(probe)
-        band = zipf_to_band(z) if z is not None else None
-        print(f"  {probe!r}: z={z} band={band}")
+        r = rank_of.get(probe)
+        band = rank_to_band(r) if r is not None else None
+        print(f"  {probe!r}: rank={r} band={band}")
     for form in ["huizen", "gelopen", "mooie", "raszuivere"]:
         print(f"  {form!r} -> {forms_out.get(form)!r}")
     print("Done.")
