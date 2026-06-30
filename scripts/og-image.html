@@ -6,7 +6,10 @@
     <link rel="stylesheet" href="../src/styles/tokens.css" />
     <link rel="stylesheet" href="../src/styles/app.css" />
     <style>
-      /* OG-specific framing only — does not touch the shared component styles. */
+      /* OG framing. Design for the THUMBNAIL: social platforms downscale to
+         ~500px wide and re-encode as JPEG, which destroys small text and thin
+         borders. Everything here is big and bold, but still sized so all three
+         cards per column fit with NO clipping and NO word-wrap. */
       html,
       body {
         margin: 0;
@@ -16,87 +19,107 @@
         width: 1200px;
         height: 630px;
         overflow: hidden;
-        padding: 36px 40px 0;
+        padding: 38px 48px;
         display: flex;
         flex-direction: column;
         gap: 16px;
         font-family: var(--font);
         color: var(--text);
       }
-      .og-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-      }
       .og-title h1 {
         margin: 0;
-        font-size: 3rem;
+        font-size: 3.1rem;
         letter-spacing: -0.03em;
-        line-height: 1.05;
+        line-height: 1.02;
       }
       .og-title p {
-        margin: 10px 0 0;
+        margin: 11px 0 0;
         color: var(--muted);
         font-size: 1.35rem;
-        max-width: 720px;
+        line-height: 1.28;
+        max-width: 920px;
       }
       .og-pills {
         display: flex;
-        gap: 10px;
-        flex-shrink: 0;
-        flex-direction: column;
-        align-items: flex-end;
+        gap: 11px;
       }
       .og-pill {
         background: var(--surface);
         border: 1px solid var(--border);
         border-radius: 999px;
-        padding: 7px 16px;
-        font-size: 0.95rem;
-        font-weight: 600;
-        color: color-mix(in srgb, var(--text) 80%, var(--muted));
+        padding: 8px 19px;
+        font-size: 1.08rem;
+        font-weight: 650;
+        color: color-mix(in srgb, var(--text) 78%, var(--muted));
         box-shadow: var(--shadow-sm);
         white-space: nowrap;
       }
-      /* Pin the board so 5 bands sit side-by-side, no horizontal scroll. */
+
+      /* Pin 5 bands side-by-side, no scroll, no clipping. */
       .og .board {
         overflow: hidden;
         flex: 1;
-        gap: 14px;
+        gap: 15px;
+        padding-bottom: 0;
       }
       .og .column {
         max-width: none;
         flex: 1 1 0;
       }
-      /* Fade the bottom edge so clipped cards look intentional, not cut off. */
-      .og .board::after {
-        content: "";
-        position: absolute;
+      .og .column-header {
+        padding: 12px 14px 6px;
       }
-      .og-fade {
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: 64px;
-        background: linear-gradient(transparent, var(--bg));
-        pointer-events: none;
+      .og .column-title {
+        font-size: 1.4rem;
+        gap: 9px;
+      }
+      .og .column-dot {
+        width: 14px;
+        height: 14px;
+      }
+      .og .column-count {
+        font-size: 1.05rem;
+      }
+      .og .btn-copy {
+        font-size: 0.98rem;
+        padding: 5px 13px;
+        border-radius: 8px;
+      }
+      .og .column-hint {
+        font-size: 0.92rem;
+        padding: 0 14px 10px;
+        min-height: 1.4em;
+      }
+      .og .column-list {
+        gap: 10px;
+        padding: 5px 11px 12px;
+      }
+      .og .card {
+        padding: 12px 14px;
+        border-left-width: 6px;
+        border-radius: 11px;
+      }
+      .og .card-lemma {
+        font-size: 1.4rem;
+        font-weight: 650;
+        white-space: nowrap;
+      }
+      .og .bar {
+        height: 11px;
+        margin-top: 10px;
       }
     </style>
   </head>
   <body>
     <div class="og">
-      <div class="og-header">
-        <div class="og-title">
-          <h1>Dutch Word Sorter</h1>
-          <p>Paste a batch of Dutch words — get them grouped by frequency into CEFR levels in one click.</p>
-        </div>
-        <div class="og-pills">
-          <span class="og-pill">⚡ One-click sort</span>
-          <span class="og-pill">✥ Drag to fine-tune</span>
-          <span class="og-pill">⧉ Copy per level</span>
-        </div>
+      <div class="og-title">
+        <h1>Dutch Word Sorter</h1>
+        <p>Paste a batch of Dutch words — get them grouped by frequency into CEFR levels in one click.</p>
+      </div>
+      <div class="og-pills">
+        <span class="og-pill">⚡ One-click sort</span>
+        <span class="og-pill">✥ Drag to fine-tune</span>
+        <span class="og-pill">⧉ Copy each level</span>
       </div>
 
       <div class="board">
@@ -104,46 +127,42 @@
         <section class="column" data-band="A1">
           <header class="column-header">
             <span class="column-title"><span class="column-dot"></span>A1</span>
-            <span class="column-count">5</span>
+            <span class="column-count">3</span>
             <button class="btn btn-copy">Copy</button>
           </header>
-          <div class="column-hint">Most common — core beginner words</div>
+          <div class="column-hint">Most common words</div>
           <div class="column-list">
             <div class="card" data-band="A1"><div class="card-top"><div class="card-words"><span class="card-lemma">de man</span></div></div><div class="bar"><span class="bar-fill" style="width:94%"></span></div></div>
-            <div class="card" data-band="A1"><div class="card-top"><div class="card-words"><span class="card-lemma">het jaar</span></div></div><div class="bar"><span class="bar-fill" style="width:90%"></span></div></div>
-            <div class="card" data-band="A1"><div class="card-top"><div class="card-words"><span class="card-lemma">goed</span></div></div><div class="bar"><span class="bar-fill" style="width:87%"></span></div></div>
-            <div class="card" data-band="A1"><div class="card-top"><div class="card-words"><span class="card-lemma">gaan</span><span class="card-from">from &ldquo;ging&rdquo;</span></div></div><div class="bar"><span class="bar-fill" style="width:84%"></span></div></div>
-            <div class="card" data-band="A1"><div class="card-top"><div class="card-words"><span class="card-lemma">groot</span></div></div><div class="bar"><span class="bar-fill" style="width:81%"></span></div></div>
+            <div class="card" data-band="A1"><div class="card-top"><div class="card-words"><span class="card-lemma">het jaar</span></div></div><div class="bar"><span class="bar-fill" style="width:88%"></span></div></div>
+            <div class="card" data-band="A1"><div class="card-top"><div class="card-words"><span class="card-lemma">goed</span></div></div><div class="bar"><span class="bar-fill" style="width:82%"></span></div></div>
           </div>
         </section>
         <!-- A2 -->
         <section class="column" data-band="A2">
           <header class="column-header">
             <span class="column-title"><span class="column-dot"></span>A2</span>
-            <span class="column-count">4</span>
+            <span class="column-count">3</span>
             <button class="btn btn-copy">Copy</button>
           </header>
-          <div class="column-hint">Very common — high beginner</div>
+          <div class="column-hint">Very common</div>
           <div class="column-list">
-            <div class="card" data-band="A2"><div class="card-top"><div class="card-words"><span class="card-lemma">de wereld</span></div></div><div class="bar"><span class="bar-fill" style="width:72%"></span></div></div>
-            <div class="card" data-band="A2"><div class="card-top"><div class="card-words"><span class="card-lemma">het water</span></div></div><div class="bar"><span class="bar-fill" style="width:68%"></span></div></div>
-            <div class="card" data-band="A2"><div class="card-top"><div class="card-words"><span class="card-lemma">werken</span></div></div><div class="bar"><span class="bar-fill" style="width:64%"></span></div></div>
-            <div class="card" data-band="A2"><div class="card-top"><div class="card-words"><span class="card-lemma">de vriend</span></div></div><div class="bar"><span class="bar-fill" style="width:60%"></span></div></div>
+            <div class="card" data-band="A2"><div class="card-top"><div class="card-words"><span class="card-lemma">de wereld</span></div></div><div class="bar"><span class="bar-fill" style="width:70%"></span></div></div>
+            <div class="card" data-band="A2"><div class="card-top"><div class="card-words"><span class="card-lemma">het water</span></div></div><div class="bar"><span class="bar-fill" style="width:64%"></span></div></div>
+            <div class="card" data-band="A2"><div class="card-top"><div class="card-words"><span class="card-lemma">werken</span></div></div><div class="bar"><span class="bar-fill" style="width:58%"></span></div></div>
           </div>
         </section>
         <!-- B1 -->
         <section class="column" data-band="B1">
           <header class="column-header">
             <span class="column-title"><span class="column-dot"></span>B1</span>
-            <span class="column-count">4</span>
+            <span class="column-count">3</span>
             <button class="btn btn-copy">Copy</button>
           </header>
           <div class="column-hint">Common — intermediate</div>
           <div class="column-list">
-            <div class="card" data-band="B1"><div class="card-top"><div class="card-words"><span class="card-lemma">de regering</span></div></div><div class="bar"><span class="bar-fill" style="width:53%"></span></div></div>
-            <div class="card" data-band="B1"><div class="card-top"><div class="card-words"><span class="card-lemma">de ontwikkeling</span></div></div><div class="bar"><span class="bar-fill" style="width:49%"></span></div></div>
-            <div class="card" data-band="B1"><div class="card-top"><div class="card-words"><span class="card-lemma">gebeuren</span></div></div><div class="bar"><span class="bar-fill" style="width:45%"></span></div></div>
-            <div class="card" data-band="B1"><div class="card-top"><div class="card-words"><span class="card-lemma">het gevolg</span></div></div><div class="bar"><span class="bar-fill" style="width:42%"></span></div></div>
+            <div class="card" data-band="B1"><div class="card-top"><div class="card-words"><span class="card-lemma">de regering</span></div></div><div class="bar"><span class="bar-fill" style="width:52%"></span></div></div>
+            <div class="card" data-band="B1"><div class="card-top"><div class="card-words"><span class="card-lemma">het gevolg</span></div></div><div class="bar"><span class="bar-fill" style="width:46%"></span></div></div>
+            <div class="card" data-band="B1"><div class="card-top"><div class="card-words"><span class="card-lemma">gebeuren</span></div></div><div class="bar"><span class="bar-fill" style="width:40%"></span></div></div>
           </div>
         </section>
         <!-- B2 -->
@@ -153,11 +172,11 @@
             <span class="column-count">3</span>
             <button class="btn btn-copy">Copy</button>
           </header>
-          <div class="column-hint">Less common — upper intermediate</div>
+          <div class="column-hint">Upper intermediate</div>
           <div class="column-list">
-            <div class="card" data-band="B2"><div class="card-top"><div class="card-words"><span class="card-lemma">de maatregel</span></div></div><div class="bar"><span class="bar-fill" style="width:34%"></span></div></div>
-            <div class="card" data-band="B2"><div class="card-top"><div class="card-words"><span class="card-lemma">het onderzoek</span></div></div><div class="bar"><span class="bar-fill" style="width:31%"></span></div></div>
-            <div class="card" data-band="B2"><div class="card-top"><div class="card-words"><span class="card-lemma">de samenleving</span></div></div><div class="bar"><span class="bar-fill" style="width:28%"></span></div></div>
+            <div class="card" data-band="B2"><div class="card-top"><div class="card-words"><span class="card-lemma">de maatregel</span></div></div><div class="bar"><span class="bar-fill" style="width:33%"></span></div></div>
+            <div class="card" data-band="B2"><div class="card-top"><div class="card-words"><span class="card-lemma">onderzoek</span></div></div><div class="bar"><span class="bar-fill" style="width:29%"></span></div></div>
+            <div class="card" data-band="B2"><div class="card-top"><div class="card-words"><span class="card-lemma">duidelijk</span></div></div><div class="bar"><span class="bar-fill" style="width:25%"></span></div></div>
           </div>
         </section>
         <!-- C -->
@@ -167,15 +186,14 @@
             <span class="column-count">3</span>
             <button class="btn btn-copy">Copy</button>
           </header>
-          <div class="column-hint">Advanced (C1/C2) — rare in everyday Dutch</div>
+          <div class="column-hint">Advanced — rare</div>
           <div class="column-list">
             <div class="card" data-band="C"><div class="card-top"><div class="card-words"><span class="card-lemma">weliswaar</span></div></div><div class="bar"><span class="bar-fill" style="width:17%"></span></div></div>
-            <div class="card" data-band="C"><div class="card-top"><div class="card-words"><span class="card-lemma">de drempel</span></div></div><div class="bar"><span class="bar-fill" style="width:13%"></span></div></div>
-            <div class="card" data-band="C"><div class="card-top"><div class="card-words"><span class="card-lemma">nochtans</span></div></div><div class="bar"><span class="bar-fill" style="width:9%"></span></div></div>
+            <div class="card" data-band="C"><div class="card-top"><div class="card-words"><span class="card-lemma">de drempel</span></div></div><div class="bar"><span class="bar-fill" style="width:12%"></span></div></div>
+            <div class="card" data-band="C"><div class="card-top"><div class="card-words"><span class="card-lemma">nochtans</span></div></div><div class="bar"><span class="bar-fill" style="width:8%"></span></div></div>
           </div>
         </section>
       </div>
     </div>
-    <div class="og-fade"></div>
   </body>
 </html>
