@@ -163,6 +163,8 @@ export function AboutDialog({ meta, open, onClose }: Props) {
           >
             Source code on GitHub ↗
           </a>
+          {" · "}
+          <a href="mailto:me@artems.net">Contact: me@artems.net</a>
         </p>
       </div>
     </dialog>
