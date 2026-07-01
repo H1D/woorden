@@ -34,14 +34,3 @@ export function rankToBand(rank: number): DataBand {
   if (rank <= RANK_THRESHOLDS.B2) return "B2";
   return "C";
 }
-
-// The frequency bar fills across the *meaningful* window (~Zipf 3–7). Below 3
-// is effectively "rare" regardless, so anchoring the bar at 3 keeps it
-// informative instead of every teachable word looking nearly full.
-const BAR_MIN = 3;
-const BAR_MAX = 7;
-
-export function zipfToFill(z: number | null): number {
-  if (z == null) return 0;
-  return Math.max(0, Math.min(1, (z - BAR_MIN) / (BAR_MAX - BAR_MIN)));
-}

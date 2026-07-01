@@ -277,19 +277,6 @@
     font-size: 0.72rem;
     color: var(--muted);
   }
-  .bar {
-    margin-top: 8px;
-    height: 7px;
-    border-radius: 99px;
-    background: color-mix(in srgb, var(--band) 16%, var(--border));
-    overflow: hidden;
-  }
-  .bar-fill {
-    display: block;
-    height: 100%;
-    border-radius: inherit;
-    background: var(--band);
-  }
 
   /* ---- popover (card details) ---- */
   .popover {

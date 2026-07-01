@@ -2,7 +2,7 @@ import type { CSSProperties } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import type { Band, WordEntry } from "../lib/types";
-import { BAND_LABEL, zipfToFill } from "../lib/banding";
+import { BAND_LABEL } from "../lib/banding";
 import { displayName } from "../lib/lookup";
 
 // Some very recent CSS props (anchor-name, position-anchor, view-transition-name)
@@ -22,7 +22,6 @@ function CardContent({
   band: Band;
   interactive: boolean;
 }) {
-  const fill = Math.round(zipfToFill(entry.zipf) * 100);
   const showOriginal = entry.original !== entry.lemma;
   const popId = `pop-${entry.id}`;
   const anchor = `--anchor-${entry.id}`;
@@ -50,12 +49,8 @@ function CardContent({
         )}
       </div>
 
-      {entry.resolved === "none" ? (
+      {entry.resolved === "none" && (
         <span className="card-nf-tag">not in frequency data</span>
-      ) : (
-        <div className="bar" aria-label={`frequency ${fill}%`} role="img">
-          <span className="bar-fill" style={{ width: `${fill}%` }} />
-        </div>
       )}
 
       {interactive && (
